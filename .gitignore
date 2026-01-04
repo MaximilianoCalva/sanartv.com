@@ -1,0 +1,34 @@
+# OS junk
+.DS_Store
+Thumbs.db
+.Spotlight-V100
+.Trashes
+
+# Editor directories
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log
+
+# Sensitive Data
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.p12
+*.crt
+creds.json
+config.js
+secrets.js
+private_key
