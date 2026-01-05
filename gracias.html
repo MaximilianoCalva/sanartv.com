@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Gracias! - Sanar TV</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --sanar-bg-gradient: linear-gradient(90deg, #fbc90a, #f57747, #bc66b0, #5473c7);
+            --sanar-yellow: #fbc90a;
+            --sanar-orange: #f57747;
+            --sanar-pink: #bc66b0;
+            --sanar-blue: #5473c7;
+            --sanar-text: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #f9f9f9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Header Styles Copied from header-web-sanartv.html --- */
+        .sanartv-header {
+            background: var(--sanar-bg-gradient);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 0 4%;
+            transition: background-color 0.4s;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            height: 68px;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            text-decoration: none;
+            margin-right: 25px;
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .logo-image {
+            display: block;
+            max-height: 40px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            flex-grow: 1;
+            justify-content: flex-end;
+        }
+
+        .nav-item {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-item:hover {
+            color: #FFFFFF;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .whatsapp-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: #FFFFFF !important;
+            color: #25D366 !important;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .whatsapp-item:hover {
+            background: #f0f0f0 !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .whatsapp-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .mobile-toggle svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            stroke-width: 2;
+        }
+
+        /* Mobile Menu */
+        .sanar-mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 250px;
+            height: 100vh;
+            background: #FFFFFF;
+            z-index: 2000;
+            transition: right 0.3s;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sanar-mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-text {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #333;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .mobile-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .mobile-nav a {
+            color: #333333;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .mobile-whatsapp {
+            color: #25D366 !important;
+            font-weight: bold !important;
+            border: 1px solid #25D366;
+            padding: 8px 15px;
+            border-radius: 8px;
+            text-align: center;
+            display: block;
+            width: fit-content;
+        }
+
+        /* --- Main Content --- */
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 100px 20px 60px;
+            /* Top padding for fixed header */
+        }
+
+        .thank-you-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            padding: 60px 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            animation: fadeIn 0.8s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .thank-you-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--sanar-bg-gradient);
+        }
+
+        .icon-container {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #fef4e6 0%, #fff0f5 100%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        .icon-container::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid #fbc90a;
+            animation: pulse 2s infinite;
+        }
+
+        .icon-check {
+            width: 50px;
+            height: 50px;
+            stroke: url(#gradientCheck);
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            animation: drawCheck 0.6s 0.4s ease-out forwards;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+        }
+
+        /* Fallback for stroke if url() is tricky in simple CSS, but SVG defs work */
+
+        .title {
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .title span {
+            background: var(--sanar-bg-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: var(--sanar-orange);
+            /* Fallback */
+        }
+
+        .message {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .btn-home {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 40px;
+            background: var(--sanar-bg-gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(245, 119, 71, 0.3);
+        }
+
+        .btn-home:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(245, 119, 71, 0.4);
+            filter: brightness(1.1);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes drawCheck {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        /* --- Footer Styles Copied from footer-web-sanartv.html --- */
+        .sanar-footer {
+            background: #FFFFFF;
+            color: #333333;
+            padding: 60px 4% 30px;
+            font-size: 14px;
+            border-top: 4px solid transparent;
+            border-image: linear-gradient(90deg, #fbc90a, #f57747, #bc66b0, #5473c7) 1;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .link-column h3 {
+            color: var(--sanar-blue);
+            margin-bottom: 20px;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .link-column {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .link-column a {
+            color: #666666;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .link-column a:hover {
+            color: var(--sanar-orange);
+            padding-left: 5px;
+        }
+
+        .whatsapp-btn {
+            display: inline-flex !important;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white !important;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: bold;
+            width: fit-content;
+            margin-top: 10px;
+            text-decoration: none;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #eee;
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            color: #999;
+            font-size: 12px;
+        }
+
+        .footer-country {
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Responsive */
+        @media (max-width: 850px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .thank-you-card {
+                padding: 40px 20px;
+            }
+
+            .title {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <div class="sanartv-header">
+        <div class="header-content">
+            <!-- Logo -->
+            <a href="https://sanartv.com/" class="nav-logo">
+                <img src="https://sanartv.com/wp-content/uploads/2025/08/Sanar-TV-logo-canal-Final3_01_Mesa-de-trabajo-1-scaled.png"
+                    alt="Sanar TV" class="logo-image">
+            </a>
+
+            <!-- Navegación -->
+            <nav class="nav-links">
+                <a href="https://sanartv.com/" class="nav-item active">Inicio</a>
+                <a href="https://sanartv.com/contacto/" class="nav-item">Contacto</a>
+                <a href="https://whatsapp.com/channel/0029Vb7XlQj8fewvkYbPIT3T" target="_blank"
+                    class="nav-item whatsapp-item">
+                    <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487 3.057 1.321 3.057.88 3.554.842.495-.037 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                    </svg>
+                    Comunidad
+                </a>
+            </nav>
+
+            <button class="mobile-toggle" onclick="toggleSanarMenu()">
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="sanar-mobile-menu" id="sanarMobileMenu">
+        <div class="mobile-header">
+            <span class="logo-text">SANAR TV</span>
+            <button class="close-btn" onclick="toggleSanarMenu()">✕</button>
+        </div>
+        <div class="mobile-nav">
+            <a href="https://sanartv.com/">Inicio</a>
+            <a href="https://sanartv.com/contacto/">Contacto</a>
+            <a href="https://whatsapp.com/channel/0029Vb7XlQj8fewvkYbPIT3T" class="mobile-whatsapp">Comunidad
+                WhatsApp</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="thank-you-card">
+            <div class="icon-container">
+                <svg class="icon-check" viewBox="0 0 24 24">
+                    <defs>
+                        <linearGradient id="gradientCheck" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#fbc90a" />
+                            <stop offset="100%" stop-color="#f57747" />
+                        </linearGradient>
+                    </defs>
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+            <h1 class="title">¡Gracias por <span>registrarte!</span></h1>
+            <p class="message">
+                Hemos recibido tu información correctamente.<br>
+                Nos pondremos en contacto contigo lo antes posible.
+            </p>
+            <a href="https://sanartv.com/" class="btn-home">Volver al Inicio</a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="sanar-footer">
+        <div class="footer-container">
+            <div class="footer-links">
+                <div class="link-column">
+                    <h3>Corporativo</h3>
+                    <a href="https://sanartv.com/relaciones-inversionistas">Relaciones con Inversionistas</a>
+                    <a href="https://sanartv.com/empleo">Empleo</a>
+                </div>
+                <div class="link-column">
+                    <h3>Ayuda</h3>
+                    <a href="https://sanartv.com/faq">Preguntas Frecuentes</a>
+                    <a href="https://sanartv.com/contacto">Contáctanos</a>
+                </div>
+                <div class="link-column">
+                    <h3>Legal</h3>
+                    <a href="https://sanartv.com/privacidad">Privacidad</a>
+                    <a href="https://sanartv.com/terminos">Términos de Uso</a>
+                </div>
+                <div class="link-column">
+                    <h3>Síguenos</h3>
+                    <div class="social-links">
+                        <a href="https://instagram.com/canalsanartv" target="_blank" class="social-link">Instagram</a>
+                        <a href="https://www.youtube.com/channel/UCtQbuCCUbGg1dMAOHFeSc2g" target="_blank"
+                            class="social-link">YouTube</a>
+                    </div>
+                    <a href="https://whatsapp.com/channel/0029Vb7XlQj8fewvkYbPIT3T" target="_blank"
+                        class="whatsapp-btn">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                            <path
+                                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487 3.057 1.321 3.057.88 3.554.842.495-.037 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                        </svg>
+                        Comunidad
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-country">Sanar TV México</div>
+                <div class="footer-copyright">© 2026 Sanar TV. Todos los derechos reservados.</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleSanarMenu() {
+            document.getElementById('sanarMobileMenu').classList.toggle('active');
+        }
+    </script>
+</body>
+
+</html>
